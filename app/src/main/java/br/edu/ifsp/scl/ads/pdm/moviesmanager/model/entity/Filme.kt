@@ -10,7 +10,7 @@ data class Filme(
     var anoLancamento: Int,
     var produtora: String,
     var tempoDeDuracao: Int,
-    var assistido: Boolean,
+    var assistido: Int,
     var nota: Int?,
     var genero: String
 //    var genero: Genero
