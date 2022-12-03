@@ -7,18 +7,12 @@
         android:title="Adicionar filme"
         app:showAsAction="ifRoom" />
     <item
-        android:title="Opções"
-        app:showAsAction="never">
-        <menu>
-            <item
-                android:id="@+id/cadastrarGeneroMi"
-                android:title="Cadastrar gênero" />
-            <item
-                android:id="@+id/ordenarPorNomeMi"
-                android:title="Ordenar por nome" />
-            <item
-                android:id="@+id/ordenarPorNotaMi"
-                android:title="Ordenar por nota" />
-        </menu>
-    </item>
+        android:id="@+id/cadastrarGeneroMi"
+        android:title="Cadastrar gênero" />
+    <item
+        android:id="@+id/ordenarPorNomeMi"
+        android:title="Ordenar por nome" />
+    <item
+        android:id="@+id/ordenarPorNotaMi"
+        android:title="Ordenar por nota" />
 </menu>

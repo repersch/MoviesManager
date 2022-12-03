@@ -102,9 +102,7 @@ class FilmeDaoSqlite(context: Context): FilmeDao {
 
     override fun retornaFilmes(): MutableList<Filme> {
         val filmeList = mutableListOf<Filme>()
-        val cursor = filmeSqliteDatabase.rawQuery(
-            "SELECT * FROM $FILME_TABLE ORDER BY $NOME_COLUMN",
-            null)
+        val cursor = filmeSqliteDatabase.rawQuery("SELECT * FROM $FILME_TABLE",null)
         while (cursor.moveToNext()) {
             filmeList.add(cursor.rowToFilme())
         }

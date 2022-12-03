@@ -21,13 +21,12 @@ class FilmeActivity: AppCompatActivity() {
             with(afb) {
                 with(_filmeRecebido) {
                     nomeEt.setText(nome)
-                    anoLancamentoEt.setText(anoLancamento)
+                    anoLancamentoEt.setText(anoLancamento.toString())
                     produtoraEt.setText(produtora)
-                    tempoDuracaoEt.setText(tempoDeDuracao)
+                    tempoDuracaoEt.setText(tempoDeDuracao.toString())
                     if (assistido == 1)  simRb.isSelected else naoRb.isSelected
                     notaEt.setText(nota.toString())
-//                    arrumar uma formar de aparecer o genero selecionado
-//                    generoSp.setSelection()
+                    generoSp.setSelection(0)
                 }
             }
         }
@@ -40,8 +39,8 @@ class FilmeActivity: AppCompatActivity() {
                 produtora = afb.produtoraEt.text.toString(),
                 tempoDeDuracao = afb.tempoDuracaoEt.text.toString().toInt(),
                 assistido = if (afb.simRb.isSelected) 1 else 0,
-                nota = afb.notaEt.text.toString().toInt(),
-                genero = afb.generoSp.isSelected.toString()
+                nota = if (afb.notaEt.text.isNotEmpty()) afb.notaEt.text.toString().toInt() else null,
+                genero = afb.generoSp.selectedItem.toString()
             )
             val resultIntent = Intent().putExtra(FILME_EXTRA, filme)
             setResult(RESULT_OK, resultIntent)

@@ -11,6 +11,7 @@ class FilmeController(mainActivity: MainActivity) {
 
     fun adicionarFilme(filme: Filme) = filmeDaoImpl.criaFilme(filme)
     fun selecionarFilme(id: Int) = filmeDaoImpl.retornaFilme(id)
+    fun recuperarFilmes() = filmeDaoImpl.retornaFilmes()
     fun editarFilme(filme: Filme) = filmeDaoImpl.atualizaFilme(filme)
     fun removerFilme(id: Int) = filmeDaoImpl.excluiFilme(id)
 }

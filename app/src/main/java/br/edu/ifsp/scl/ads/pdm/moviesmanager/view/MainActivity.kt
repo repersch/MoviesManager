@@ -3,16 +3,18 @@ package br.edu.ifsp.scl.ads.pdm.moviesmanager.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.AdapterView
+import android.widget.AdapterView.AdapterContextMenuInfo
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.R
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.adapter.FilmeAdapter
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.controller.FilmeController
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.databinding.ActivityMainBinding
-import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.FILME_EXTRA
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.VIEW_FILME
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Filme
@@ -23,7 +25,9 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private val listaDeFilmes: MutableList<Filme> = mutableListOf()
+    private val listaDeFilmes: MutableList<Filme> by lazy {
+        filmeController.recuperarFilmes()
+    }
 
     private lateinit var filmeAdapter: FilmeAdapter
 
@@ -52,10 +56,9 @@ class MainActivity : AppCompatActivity() {
                         listaDeFilmes[posicao] = _filme
                         filmeController.editarFilme(_filme)
                     } else {
-                        _filme.id - filmeController.adicionarFilme(_filme)
+                        _filme.id = filmeController.adicionarFilme(_filme)
                         listaDeFilmes.add(_filme)
                     }
-//                    listaDeFilmes.sortBy { it.nome }
                     filmeAdapter.notifyDataSetChanged()
                 }
             }
@@ -86,4 +89,34 @@ class MainActivity : AppCompatActivity() {
             } else -> { false }
         }
     }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        menuInflater.inflate(R.menu.context_menu_main, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val posicao = (item.menuInfo as AdapterContextMenuInfo).position
+        return when(item.itemId) {
+            R.id.excluirFilmeMi -> {
+                filmeController.removerFilme(listaDeFilmes[posicao].id)
+                listaDeFilmes.removeAt(posicao)
+                filmeAdapter.notifyDataSetChanged()
+                true
+            }
+            R.id.editarFilmetMi -> {
+                val filme = listaDeFilmes[posicao]
+                val filmeIntent = Intent(this, FilmeActivity::class.java)
+                filmeIntent.putExtra(FILME_EXTRA, filme)
+                filmeIntent.putExtra(VIEW_FILME, false)
+                carl.launch(filmeIntent)
+                true
+            }
+            else -> { false }
+        }
+    }
+
 }
