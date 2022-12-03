@@ -2,9 +2,11 @@ package br.edu.ifsp.scl.ads.pdm.moviesmanager.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.databinding.ActivityFilmeBinding
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.FILME_EXTRA
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.VIEW_FILME
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Filme
 
 class FilmeActivity: AppCompatActivity() {
@@ -30,6 +32,23 @@ class FilmeActivity: AppCompatActivity() {
                 }
             }
         }
+
+        val viewFilme = intent.getBooleanExtra(VIEW_FILME, false)
+        if (viewFilme) {
+            afb.nomeEt.isEnabled = false
+            afb.anoLancamentoEt.isEnabled = false
+            afb.produtoraEt.isEnabled = false
+            afb.tempoDuracaoEt.isEnabled = false
+            afb.notaEt.isEnabled = false
+            afb.generoSp.isEnabled = false
+            afb.simRb.isEnabled = false
+            afb.naoRb.isEnabled = false
+            afb.salvarBt.visibility = View.GONE
+        }
+
+        afb.simRb.setOnClickListener { afb.notaEt.visibility = View.VISIBLE }
+
+        afb.naoRb.setOnClickListener { afb.notaEt.visibility = View.GONE }
 
         afb.salvarBt.setOnClickListener {
             val filme = Filme(

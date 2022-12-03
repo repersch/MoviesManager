@@ -45,6 +45,14 @@
             android:minHeight="48dp"
             android:inputType="number" />
 
+        <Spinner
+            android:id="@+id/generoSp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_margin="5dp"
+            android:entries="@array/generos" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,15 +88,8 @@
             android:layout_height="wrap_content"
             android:hint="Nota"
             android:minHeight="48dp"
-            android:inputType="number" />
-
-        <Spinner
-            android:id="@+id/generoSp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:layout_margin="5dp"
-            android:entries="@array/generos" />
+            android:inputType="number"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/salvarBt"

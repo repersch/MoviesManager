@@ -86,7 +86,21 @@ class MainActivity : AppCompatActivity() {
             R.id.addFilmeMi -> {
                 carl.launch(Intent(this, FilmeActivity::class.java))
                 true
-            } else -> { false }
+            }
+
+            R.id.ordenarPorNomeMi -> {
+                listaDeFilmes.sortBy { it.nome }
+                filmeAdapter.notifyDataSetChanged()
+                true
+            }
+
+            R.id.ordenarPorNotaMi -> {
+                listaDeFilmes.sortByDescending { it.nota }
+                filmeAdapter.notifyDataSetChanged()
+                true
+            }
+
+            else -> { false }
         }
     }
 
