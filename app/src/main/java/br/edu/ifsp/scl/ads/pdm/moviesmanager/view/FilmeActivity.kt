@@ -10,6 +10,7 @@ import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.VIEW_FILME
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Filme
 
 class FilmeActivity: AppCompatActivity() {
+
     private val afb: ActivityFilmeBinding by lazy {
         ActivityFilmeBinding.inflate(layoutInflater)
     }

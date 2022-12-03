@@ -4,15 +4,15 @@
     <item
         android:id="@+id/addFilmeMi"
         android:icon="@drawable/ic_add"
-        android:title="Adicionar filme"
+        android:title="@string/adicionar_filme"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/cadastrarGeneroMi"
-        android:title="Cadastrar gênero" />
+        android:title="@string/cadastrar_genero" />
     <item
         android:id="@+id/ordenarPorNomeMi"
-        android:title="Ordenar por nome" />
+        android:title="@string/ordenar_por_nome" />
     <item
         android:id="@+id/ordenarPorNotaMi"
-        android:title="Ordenar por nota" />
+        android:title="@string/ordenar_por_nota" />
 </menu>

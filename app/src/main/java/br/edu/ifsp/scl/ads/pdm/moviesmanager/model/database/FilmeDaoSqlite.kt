@@ -7,18 +7,21 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.dao.FilmeDao
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.dao.GeneroDao
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Filme
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Genero
 import java.sql.SQLException
 
 
-class FilmeDaoSqlite(context: Context): FilmeDao {
+class FilmeDaoSqlite(context: Context): FilmeDao, GeneroDao {
 
-    companion object Constant {
+    companion object Constantes {
         // arquivo onde os dados do banco serão armazenados
         private const val FILME_DATABASE_FILE = "filmes"
 
         // nome da tabela
         private const val FILME_TABLE = "filme"
+        private const val GENERO_TABLE = "genero"
 
         // atributos
         private const val ID_COLUMN = "id"
@@ -41,6 +44,12 @@ class FilmeDaoSqlite(context: Context): FilmeDao {
                 "$ASSISTIDO_COLUMN INTEGER NOT NULL," +
                 "$NOTA_COLUMN INTEGER," +
                 "$GENERO_COLUMN TEXT NOT NULL);"
+
+        private const val CREATE_GENERO_TABLE_STATEMENT =
+            "CREATE TABLE IF NOT EXISTS ${GENERO_TABLE} (" +
+                    "${ID_COLUMN} INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "${NOME_COLUMN} TEXT NOT NULL UNIQUE);"
+
     }
 
     // abre a conexão com o banco
@@ -53,6 +62,7 @@ class FilmeDaoSqlite(context: Context): FilmeDao {
         )
         try {
             filmeSqliteDatabase.execSQL(CREATE_FILME_TABLE_STATEMENT)
+            filmeSqliteDatabase.execSQL(CREATE_GENERO_TABLE_STATEMENT)
         } catch(se: SQLException) {
             Log.e("MovieManager", se.toString())
         }
@@ -70,6 +80,12 @@ class FilmeDaoSqlite(context: Context): FilmeDao {
         return cv
     }
 
+    private fun Genero.toContentValues(): ContentValues {
+        val cv = ContentValues()
+        cv.put(NOME_COLUMN, this.nome)
+        return cv
+    }
+
     private fun Cursor.rowToFilme() = Filme (
         getInt(getColumnIndexOrThrow(ID_COLUMN)),
         getString(getColumnIndexOrThrow(NOME_COLUMN)),
@@ -81,8 +97,16 @@ class FilmeDaoSqlite(context: Context): FilmeDao {
         getString(getColumnIndexOrThrow(GENERO_COLUMN))
     )
 
+    private fun Cursor.rowToGenero() = Genero (
+        getInt(getColumnIndexOrThrow(ID_COLUMN)),
+        getString(getColumnIndexOrThrow(NOME_COLUMN))
+    )
+
     override fun criaFilme(filme: Filme): Int {
-        return filmeSqliteDatabase.insert(FILME_TABLE, null, filme.toContentValues()).toInt()
+        return filmeSqliteDatabase.insert(
+            FILME_TABLE,
+            null,
+            filme.toContentValues()).toInt()
     }
 
     override fun retornaFilme(id: Int): Filme? {
@@ -122,6 +146,45 @@ class FilmeDaoSqlite(context: Context): FilmeDao {
         return filmeSqliteDatabase.delete(
             FILME_TABLE,
             "$ID_COLUMN = ?",
+            arrayOf(id.toString()))
+    }
+
+    override fun criaGenero(genero: Genero): Int {
+        return filmeSqliteDatabase.insert(
+            GENERO_TABLE,
+            null,
+            genero.toContentValues()).toInt()
+    }
+
+    override fun retornaGenero(id: Int): Genero? {
+        val cursor = filmeSqliteDatabase.rawQuery(
+            "SELECT * FROM ${GENERO_TABLE} WHERE ${ID_COLUMN} = ?",
+            arrayOf(id.toString())
+        )
+
+        val genero = if (cursor.moveToFirst()) {
+            cursor.rowToGenero()
+        } else {
+            null
+        }
+        cursor.close()
+        return genero
+    }
+
+    override fun retornaGeneros(): MutableList<Genero> {
+        val generoList = mutableListOf<Genero>()
+        val cursor = filmeSqliteDatabase.rawQuery("SELECT * FROM ${GENERO_TABLE}",null)
+        while (cursor.moveToNext()) {
+            generoList.add(cursor.rowToGenero())
+        }
+        cursor.close()
+        return generoList
+    }
+
+    override fun excluiGenero(id: Int): Int {
+        return filmeSqliteDatabase.delete(
+            GENERO_TABLE,
+            "${ID_COLUMN} = ?",
             arrayOf(id.toString()))
     }
 }

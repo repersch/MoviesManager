@@ -1,5 +1,22 @@
 <resources>
     <string name="app_name">Movies Manager</string>
+    <string name="novo_filme">Novo Filme</string>
+    <string name="nome">Nome</string>
+    <string name="ano_de_lancamento">Ano de lançamento</string>
+    <string name="produtora">Produtora</string>
+    <string name="tempo_de_duracao">Tempo de duração</string>
+    <string name="assistido">Assistido:</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="nota">Nota</string>
+    <string name="salvar">Salvar</string>
+    <string name="novo_genero">Novo Gênero</string>
+    <string name="excluir_filme">Excluir filme</string>
+    <string name="editar_filme">Editar filme</string>
+    <string name="adicionar_filme">Adicionar filme</string>
+    <string name="cadastrar_genero">Cadastrar gênero</string>
+    <string name="ordenar_por_nome">Ordenar por nome</string>
+    <string name="ordenar_por_nota">Ordenar por nota</string>
 
     <string-array name="generos">
         <item>Gênero</item>

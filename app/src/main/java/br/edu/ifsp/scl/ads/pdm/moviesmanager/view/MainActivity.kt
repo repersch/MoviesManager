@@ -14,10 +14,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.R
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.adapter.FilmeAdapter
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.controller.FilmeController
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.controller.GeneroController
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.databinding.ActivityMainBinding
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.FILME_EXTRA
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.GENERO_EXTRA
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.VIEW_FILME
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Filme
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Genero
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,12 +32,21 @@ class MainActivity : AppCompatActivity() {
         filmeController.recuperarFilmes()
     }
 
+    private val listaDeGeneros: MutableList<Genero> by lazy {
+        generoController.recuperarFilmes()
+    }
+
     private lateinit var filmeAdapter: FilmeAdapter
 
-    private lateinit var carl: ActivityResultLauncher<Intent>
+    private lateinit var filmeArl: ActivityResultLauncher<Intent>
+    private lateinit var generoArl: ActivityResultLauncher<Intent>
 
     private val filmeController: FilmeController by lazy {
         FilmeController(this)
+    }
+
+    private val generoController: GeneroController by lazy {
+        GeneroController(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         filmeAdapter = FilmeAdapter(this, listaDeFilmes)
         amb.filmesLv.adapter = filmeAdapter
 
-        carl = registerForActivityResult(
+        filmeArl = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -60,6 +72,20 @@ class MainActivity : AppCompatActivity() {
                         listaDeFilmes.add(_filme)
                     }
                     filmeAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+
+        generoArl = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val genero = result.data?.getParcelableExtra<Genero>(GENERO_EXTRA)
+
+                genero?.let { _genero ->
+                    println("Genero para salvar: ${_genero}")
+                    _genero.id = generoController.adicionarGenero(_genero)
+                    listaDeGeneros.add(_genero)
                 }
             }
         }
@@ -84,7 +110,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.addFilmeMi -> {
-                carl.launch(Intent(this, FilmeActivity::class.java))
+                filmeArl.launch(Intent(this, FilmeActivity::class.java))
                 true
             }
 
@@ -97,6 +123,11 @@ class MainActivity : AppCompatActivity() {
             R.id.ordenarPorNotaMi -> {
                 listaDeFilmes.sortByDescending { it.nota }
                 filmeAdapter.notifyDataSetChanged()
+                true
+            }
+
+            R.id.cadastrarGeneroMi -> {
+                generoArl.launch(Intent(this, GeneroActivity::class.java))
                 true
             }
 
@@ -126,7 +157,7 @@ class MainActivity : AppCompatActivity() {
                 val filmeIntent = Intent(this, FilmeActivity::class.java)
                 filmeIntent.putExtra(FILME_EXTRA, filme)
                 filmeIntent.putExtra(VIEW_FILME, false)
-                carl.launch(filmeIntent)
+                filmeArl.launch(filmeIntent)
                 true
             }
             else -> { false }

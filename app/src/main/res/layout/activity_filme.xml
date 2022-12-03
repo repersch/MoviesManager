@@ -13,19 +13,29 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:text="@string/novo_filme"/>
+
         <EditText
             android:id="@+id/nomeEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"
+            android:layout_marginTop="30sp"
             android:inputType="textPersonName"
-            android:hint="Nome" />
+            android:hint="@string/nome" />
 
         <EditText
             android:id="@+id/anoLancamentoEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ano de lançamento"
+            android:hint="@string/ano_de_lancamento"
             android:minHeight="48dp"
             android:inputType="number" />
 
@@ -35,13 +45,13 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp"
             android:inputType="textPersonName"
-            android:hint="Produtora" />
+            android:hint="@string/produtora" />
 
         <EditText
             android:id="@+id/tempoDuracaoEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tempo de duração"
+            android:hint="@string/tempo_de_duracao"
             android:minHeight="48dp"
             android:inputType="number" />
 
@@ -57,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Assistido: "/>
+            android:text="@string/assistido"/>
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -71,7 +81,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sim" />
+                android:text="@string/sim" />
 
             <RadioButton
                 android:id="@+id/naoRb"
@@ -79,14 +89,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="Não"/>
+                android:text="@string/nao"/>
         </RadioGroup>
 
         <EditText
             android:id="@+id/notaEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nota"
+            android:hint="@string/nota"
             android:minHeight="48dp"
             android:inputType="number"
             android:visibility="gone"/>
@@ -95,8 +105,8 @@
             android:id="@+id/salvarBt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Salvar" />
+            android:layout_marginTop="30dp"
+            android:text="@string/salvar" />
 
     </LinearLayout>
 </ScrollView>
