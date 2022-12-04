@@ -15,6 +15,6 @@ data class Filme(
     var tempoDeDuracao: Int,
     var assistido: Int = 0,
     var nota: Int?,
-    var genero: String
+    var idGenero: Int
 //    var genero: Genero
 ): Parcelable

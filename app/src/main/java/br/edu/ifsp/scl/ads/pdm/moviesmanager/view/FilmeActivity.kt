@@ -3,11 +3,14 @@ package br.edu.ifsp.scl.ads.pdm.moviesmanager.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.databinding.ActivityFilmeBinding
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.FILME_EXTRA
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.LISTA_DE_GENEROS
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.VIEW_FILME
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Filme
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Genero
 
 class FilmeActivity: AppCompatActivity() {
 
@@ -15,21 +18,35 @@ class FilmeActivity: AppCompatActivity() {
         ActivityFilmeBinding.inflate(layoutInflater)
     }
 
+    private val listaDeGeneros: MutableList<Genero> by lazy {
+        intent.getParcelableArrayListExtra<Genero>(LISTA_DE_GENEROS)!!
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(afb.root)
+
+        val arrayAdapter = ArrayAdapter<String>(
+            this,
+            androidx.constraintlayout.widget.R.layout.select_dialog_item_material,
+            listaDeGeneros.map { g -> g.nome })
+        afb.generoSp.adapter = arrayAdapter
 
         val filmeRecebido = intent.getParcelableExtra<Filme>(FILME_EXTRA)
         filmeRecebido?.let { _filmeRecebido ->
             with(afb) {
                 with(_filmeRecebido) {
+                    tituloTv.setText("Filme #${id}")
                     nomeEt.setText(nome)
                     anoLancamentoEt.setText(anoLancamento.toString())
                     produtoraEt.setText(produtora)
                     tempoDuracaoEt.setText(tempoDeDuracao.toString())
-                    if (assistido == 1)  simRb.isSelected else naoRb.isSelected
-                    notaEt.setText(nota.toString())
-                    generoSp.setSelection(0)
+                    generoSp.setSelection(listaDeGeneros.indexOfFirst { it.id == idGenero })
+                    if (assistido == 1) {
+                        simRb.setChecked(true)
+                        notaEt.visibility = View.VISIBLE
+                        notaEt.setText(nota.toString())
+                    } else naoRb.setChecked(true)
                 }
             }
         }
@@ -58,9 +75,9 @@ class FilmeActivity: AppCompatActivity() {
                 anoLancamento = afb.anoLancamentoEt.text.toString().toInt(),
                 produtora = afb.produtoraEt.text.toString(),
                 tempoDeDuracao = afb.tempoDuracaoEt.text.toString().toInt(),
-                assistido = if (afb.simRb.isSelected) 1 else 0,
+                assistido = if (afb.simRb.isChecked) 1 else 0,
                 nota = if (afb.notaEt.text.isNotEmpty()) afb.notaEt.text.toString().toInt() else null,
-                genero = afb.generoSp.selectedItem.toString()
+                idGenero = afb.generoSp.selectedItemId.toInt()
             )
             val resultIntent = Intent().putExtra(FILME_EXTRA, filme)
             setResult(RESULT_OK, resultIntent)

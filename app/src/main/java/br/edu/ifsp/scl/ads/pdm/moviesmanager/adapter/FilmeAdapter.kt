@@ -2,13 +2,16 @@ package br.edu.ifsp.scl.ads.pdm.moviesmanager.adapter
 
 import android.content.Context
 import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.provider.MediaStore.Audio.Genres
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.R
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.controller.GeneroController
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Filme
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Genero
 
 class FilmeAdapter(
     context: Context,
@@ -16,6 +19,8 @@ class FilmeAdapter(
 ): ArrayAdapter<Filme>(context, R.layout.tile_filme, filmeList) {
 
     private data class TileFilmeHolder(val nomeTv: TextView, val anoLancamentoTv: TextView)
+
+
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val filme = filmeList[position]

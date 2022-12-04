@@ -34,6 +34,11 @@ class FilmeDaoSqlite(context: Context): FilmeDao, GeneroDao {
         private const val GENERO_COLUMN = "genero"
 
         // criação da tabela
+        private const val CREATE_GENERO_TABLE_STATEMENT =
+            "CREATE TABLE IF NOT EXISTS ${GENERO_TABLE} (" +
+                    "${ID_COLUMN} INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "${NOME_COLUMN} TEXT NOT NULL UNIQUE);"
+
         private const val CREATE_FILME_TABLE_STATEMENT =
             "CREATE TABLE IF NOT EXISTS $FILME_TABLE (" +
                 "$ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -43,13 +48,8 @@ class FilmeDaoSqlite(context: Context): FilmeDao, GeneroDao {
                 "$TEMPO_DE_DURACAO_COLUMN INTEGER NOT NULL," +
                 "$ASSISTIDO_COLUMN INTEGER NOT NULL," +
                 "$NOTA_COLUMN INTEGER," +
-                "$GENERO_COLUMN TEXT NOT NULL);"
-
-        private const val CREATE_GENERO_TABLE_STATEMENT =
-            "CREATE TABLE IF NOT EXISTS ${GENERO_TABLE} (" +
-                    "${ID_COLUMN} INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "${NOME_COLUMN} TEXT NOT NULL UNIQUE);"
-
+                "$GENERO_COLUMN TEXT NOT NULL," +
+                "FOREIGN KEY($GENERO_COLUMN) REFERENCES $GENERO_TABLE($ID_COLUMN));"
     }
 
     // abre a conexão com o banco
@@ -61,8 +61,8 @@ class FilmeDaoSqlite(context: Context): FilmeDao, GeneroDao {
             null
         )
         try {
-            filmeSqliteDatabase.execSQL(CREATE_FILME_TABLE_STATEMENT)
             filmeSqliteDatabase.execSQL(CREATE_GENERO_TABLE_STATEMENT)
+            filmeSqliteDatabase.execSQL(CREATE_FILME_TABLE_STATEMENT)
         } catch(se: SQLException) {
             Log.e("MovieManager", se.toString())
         }
@@ -76,7 +76,7 @@ class FilmeDaoSqlite(context: Context): FilmeDao, GeneroDao {
         cv.put(TEMPO_DE_DURACAO_COLUMN, this.tempoDeDuracao)
         cv.put(ASSISTIDO_COLUMN, this.assistido)
         cv.put(NOTA_COLUMN, this.nota)
-        cv.put(GENERO_COLUMN, this.genero)
+        cv.put(GENERO_COLUMN, this.idGenero)
         return cv
     }
 
@@ -94,7 +94,7 @@ class FilmeDaoSqlite(context: Context): FilmeDao, GeneroDao {
         getInt(getColumnIndexOrThrow(TEMPO_DE_DURACAO_COLUMN)),
         getInt(getColumnIndexOrThrow(ASSISTIDO_COLUMN)),
         getInt(getColumnIndexOrThrow(NOTA_COLUMN)),
-        getString(getColumnIndexOrThrow(GENERO_COLUMN))
+        getInt(getColumnIndexOrThrow(GENERO_COLUMN))
     )
 
     private fun Cursor.rowToGenero() = Genero (
