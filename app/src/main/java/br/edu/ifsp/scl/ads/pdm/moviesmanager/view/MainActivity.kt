@@ -16,10 +16,10 @@ import br.edu.ifsp.scl.ads.pdm.moviesmanager.adapter.FilmeAdapter
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.controller.FilmeController
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.controller.GeneroController
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.databinding.ActivityMainBinding
-import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.FILME_EXTRA
-import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.GENERO_EXTRA
-import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.LISTA_DE_GENEROS
-import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.VIEW_FILME
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.Constant.FILME_EXTRA
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.Constant.GENERO_EXTRA
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.Constant.LISTA_DE_GENEROS
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.Constant.VIEW_FILME
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Filme
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Genero
 

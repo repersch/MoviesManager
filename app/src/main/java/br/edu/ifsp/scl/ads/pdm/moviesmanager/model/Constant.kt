@@ -1,4 +1,4 @@
-package br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity
+package br.edu.ifsp.scl.ads.pdm.moviesmanager.model
 
 object Constant {
     const val FILME_EXTRA = "FILME_EXTRA"

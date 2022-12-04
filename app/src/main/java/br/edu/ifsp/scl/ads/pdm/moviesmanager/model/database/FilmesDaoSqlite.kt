@@ -13,7 +13,7 @@ import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Genero
 import java.sql.SQLException
 
 
-class FilmeDaoSqlite(context: Context): FilmeDao, GeneroDao {
+class FilmesDaoSqlite(context: Context): FilmeDao, GeneroDao {
 
     companion object Constantes {
         // arquivo onde os dados do banco serão armazenados

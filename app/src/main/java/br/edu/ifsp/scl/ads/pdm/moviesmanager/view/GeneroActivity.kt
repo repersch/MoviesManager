@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.databinding.ActivityGeneroBinding
-import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Constant.GENERO_EXTRA
+import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.Constant.GENERO_EXTRA
 import br.edu.ifsp.scl.ads.pdm.moviesmanager.model.entity.Genero
 
 class GeneroActivity: AppCompatActivity() {
