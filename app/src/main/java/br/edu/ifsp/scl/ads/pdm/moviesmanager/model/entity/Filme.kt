@@ -16,5 +16,4 @@ data class Filme(
     var assistido: Int = 0,
     var nota: Int?,
     var idGenero: Int
-//    var genero: Genero
 ): Parcelable

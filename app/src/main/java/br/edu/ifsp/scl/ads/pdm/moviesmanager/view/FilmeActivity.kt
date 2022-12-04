@@ -41,6 +41,7 @@ class FilmeActivity: AppCompatActivity() {
                 with(_filmeRecebido) {
                     tituloTv.setText("Filme #${id}")
                     nomeEt.setText(nome)
+                    nomeEt.isEnabled = false
                     anoLancamentoEt.setText(anoLancamento.toString())
                     produtoraEt.setText(produtora)
                     tempoDuracaoEt.setText(tempoDeDuracao.toString())
